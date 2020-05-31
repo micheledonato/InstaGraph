@@ -10,28 +10,34 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    fun BaseUseCase.execute() {
-//        execute(viewModelScope)
-
-
-    }
-
-
-    fun <T> BaseUseCase.launch(resource: Resource<T>) {
-        viewModelScope.launch(Dispatchers.IO) {
+//    fun <T> BaseUseCase<T>.execute(resource: Resource<T>) {
+//        execute(viewModelScope){
 //            try {
 //                resource.postLoading(LoadingState.SHOW)
-//                val response = getResponse()
-//                if (response.id != 0L) {
-//                    resource.postData(response)
-//                } else {
-//                    resource.postError(Exception("id has zero"))
-//                }
+//                val response = ()
+//                resource.postData(response)
 //            } catch (e: Exception) {
 //                resource.postError(e)
 //            } finally {
 //                resource.postLoading(LoadingState.HIDE)
 //            }
+//        }
+//
+//
+//    }
+
+
+    fun <T> BaseUseCase<T>.launch(resource: Resource<T>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                resource.postLoading(LoadingState.SHOW)
+                val response = execute()
+                resource.postData(response)
+            } catch (e: Exception) {
+                resource.postError(e)
+            } finally {
+                resource.postLoading(LoadingState.HIDE)
+            }
         }
     }
 

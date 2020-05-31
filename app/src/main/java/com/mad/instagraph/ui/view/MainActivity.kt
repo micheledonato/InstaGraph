@@ -6,6 +6,7 @@ import com.mad.instagraph.R
 import com.mad.instagraph.ui.utils.loadFragment
 import com.mad.instagraph.ui.view.base.BaseActivity
 import com.mad.instagraph.ui.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
@@ -18,14 +19,14 @@ class MainActivity : BaseActivity() {
 
         mainViewModel.resource
             .onSuccess { user ->
-                //user_tv.text = user.getName()
+                user_tv.text = user.getName()
             }.onFailure {
                 Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
             }.onLoading {
-
+                loader.visibility = it.visibility
             }
 
-        //loadFragment(newFragment, R.id.fragment_container)
+        //loadFragment(UserFragment(), R.id.fragment_container)
     }
 
 }
