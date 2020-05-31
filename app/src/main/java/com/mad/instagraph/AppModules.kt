@@ -4,6 +4,8 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.mad.instagraph.remote.api.InstagramApi
+import com.mad.instagraph.repository.UserRepository
+import com.mad.instagraph.repository.UserRepositoryImpl
 import com.mad.instagraph.ui.viewmodel.MainViewModel
 import com.mad.instagraph.usecase.GetUserUseCase
 import okhttp3.OkHttpClient
@@ -14,11 +16,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val domainModule = module {
 
-    factory { GetUserUseCase() }
+    factory { GetUserUseCase(get()) }
 
 }
 
 val dataModule = module {
+
+    single<UserRepository> { UserRepositoryImpl() }
 
 }
 
