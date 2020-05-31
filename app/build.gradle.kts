@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -51,6 +53,17 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -64,6 +77,7 @@ dependencies {
     val koinVersion: String by project
     val retrofitVersion: String by project
     val gsonVersion: String by project
+    val coilVersion: String by project
 
     implementation(project(":data"))
 
@@ -88,6 +102,8 @@ dependencies {
     implementation("com.squareup.retrofit2", "converter-gson", retrofitVersion)
 
     implementation("com.google.code.gson", "gson", gsonVersion)
+
+    implementation("io.coil-kt", "coil", coilVersion)
 
     testImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
