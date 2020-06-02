@@ -2,7 +2,6 @@ package com.mad.instagraph.ui.view
 
 import android.os.Bundle
 import android.widget.Toast
-import coil.api.load
 import com.mad.instagraph.R
 import com.mad.instagraph.ui.utils.validateAndLoad
 import com.mad.instagraph.ui.view.base.BaseActivity
@@ -18,25 +17,16 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel.photo
-            .onSuccess { photo ->
-                photo_iv.validateAndLoad(photo.url)
-            }.onFailure {
-                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-            }.onLoading {
-                loader.visibility = it.visibility
+        mainViewModel.resource.observe(
+            loader,
+            { model ->
+                user_tv.text = model.user.getName()
+                photo_iv.validateAndLoad(model.photo.url)
+            },
+            { error ->
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
             }
-
-        mainViewModel.user
-            .onSuccess { user ->
-                user_tv.text = user.getName()
-            }.onFailure {
-                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-            }.onLoading {
-                loader.visibility = it.visibility
-            }
-
-        //loadFragment(UserFragment(), R.id.fragment_container)
+        )
     }
 
 }
