@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import coil.api.load
 import com.mad.instagraph.R
+import com.mad.instagraph.ui.utils.validateAndLoad
 import com.mad.instagraph.ui.view.base.BaseActivity
 import com.mad.instagraph.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,7 +20,7 @@ class MainActivity : BaseActivity() {
 
         mainViewModel.photo
             .onSuccess { photo ->
-                photo_iv.load(photo.url)
+                photo_iv.validateAndLoad(photo.url)
             }.onFailure {
                 Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
             }.onLoading {

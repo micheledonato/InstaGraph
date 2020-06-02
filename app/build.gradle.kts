@@ -93,6 +93,7 @@ dependencies {
     implementation("androidx.lifecycle", "lifecycle-livedata-ktx", lifecycleVersion)
     implementation("androidx.fragment", "fragment", fragmentVersion)
 
+    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", coroutinesVersion)
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-android", coroutinesVersion)
 
     implementation("org.koin", "koin-android", koinVersion)

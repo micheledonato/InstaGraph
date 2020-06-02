@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 class UserRepositoryImpl : UserRepository {
 
     override suspend fun getUser(): UserEntity {
-        delay(5000L)
+        delay(5_000L)
         return UserEntity(id = 13, firstName = "Michele", lastName = "Donato")
     }
 
