@@ -8,7 +8,7 @@ class GetPhotoUseCase(
     private val photoRepository: PhotoRepository
 ) : BaseUseCase<PhotoEntity>() {
 
-    override suspend fun execute(): PhotoEntity {
+    override suspend fun block(): PhotoEntity {
         return photoRepository.getPhoto()
     }
 

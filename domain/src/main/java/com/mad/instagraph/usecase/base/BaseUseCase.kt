@@ -1,18 +1,18 @@
 package com.mad.instagraph.usecase.base
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 abstract class BaseUseCase<T> {
 
-    abstract suspend fun execute(): T
+    protected abstract suspend fun block(): T
 
-//    suspend fun execute(scope: CoroutineScope, dispatcher: CoroutineDispatcher= Dispatchers.IO, callback: (T) -> Unit = {}) {
-//        scope.launch(dispatcher) {
-//            callback()
-//        }
-//    }
+    fun execute(scope: CoroutineScope, onResponse: (T) -> Unit = {}) {
+        scope.launch {
+            val deferred = async { block() }
+            onResponse(deferred.await())
+        }
+    }
 
 }
