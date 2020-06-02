@@ -21,6 +21,12 @@ class MainViewModel(
 
     private fun loadData() {
 
+        /**
+         * Pro: chiamate asincrone slegate tra di loro, così che quando una chiamata termina mostra subito il dato e non deve aspettare l'altra chiamata.
+         * Contro: la prima chiamata nasconde il loader mentre la seconda chiamata sta ancora in esecuzione.
+         * Contro: Non si possono concatenare i dati delle due chiamate in un unico modello o per un elaborazione prima della visualizzazione.
+         */
+
         getPhotoUseCase.launch(photo)
         getUserUseCase.launch(user)
 
