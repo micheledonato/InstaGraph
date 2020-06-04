@@ -4,6 +4,8 @@
 /.idea/caches
 /.idea/dictionaries
 /.idea/libraries
+/.idea/sonarlint
+/.idea/jarRepositories.xml
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
