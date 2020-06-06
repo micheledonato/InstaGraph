@@ -67,6 +67,7 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
+    val materialVersion: String by project
     val appcompatVersion: String by project
     val coreVersion: String by project
     val constraintlayoutVersion: String by project
@@ -84,6 +85,8 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(kotlin("stdlib-jdk8"))
+
+    implementation("com.google.android.material", "material", materialVersion)
 
     implementation("androidx.appcompat", "appcompat", appcompatVersion)
     implementation("androidx.core", "core-ktx", coreVersion)
