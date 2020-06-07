@@ -5,8 +5,10 @@ plugins {
 }
 
 dependencies {
+    val kotlinVersion: String by project
+
     api(project(":domain"))
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib-jdk8", kotlinVersion))
 }
 
 val compileKotlin: KotlinCompile by tasks

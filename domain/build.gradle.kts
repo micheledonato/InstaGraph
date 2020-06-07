@@ -5,9 +5,10 @@ plugins {
 }
 
 dependencies {
+    val kotlinVersion: String by project
     val coroutinesVersion: String by project
 
-    api(kotlin("stdlib-jdk8"))
+    api(kotlin("stdlib-jdk8", kotlinVersion))
 
     api("org.jetbrains.kotlinx", "kotlinx-coroutines-android", coroutinesVersion)
 }

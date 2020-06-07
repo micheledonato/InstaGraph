@@ -67,6 +67,7 @@ tasks.withType<KotlinCompile> {
 }
 
 dependencies {
+    val kotlinVersion: String by project
     val materialVersion: String by project
     val appcompatVersion: String by project
     val coreVersion: String by project
@@ -84,7 +85,7 @@ dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib-jdk8", kotlinVersion))
 
     implementation("com.google.android.material", "material", materialVersion)
 
@@ -109,7 +110,7 @@ dependencies {
 
     implementation("io.coil-kt", "coil", coilVersion)
 
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13")
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 }
