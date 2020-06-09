@@ -18,23 +18,16 @@ class UserFragment : BaseFragment(R.layout.fragment_user) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.photo
-            .onSuccess { photo ->
-                photoImage.validateAndLoad(photo.url)
+        mainViewModel.resource
+            .onSuccess { model ->
+                photoImage.validateAndLoad(model.photo.url)
+                nameTextField.editText?.setText(model.user.getName())
             }.onFailure {
                 Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }.onLoading {
                 activity?.loader?.visibility = it.visibility
             }
 
-        mainViewModel.user
-            .onSuccess { user ->
-                nameTextField.editText?.setText(user.getName())
-            }.onFailure {
-                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-            }.onLoading {
-                activity?.loader?.visibility = it.visibility
-            }
     }
 
 }

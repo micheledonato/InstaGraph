@@ -10,18 +10,5 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    fun <T> BaseUseCase<T>.launch(resource: Resource<T>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                resource.postLoading(LoadingState.SHOW)
-                val response = execute()
-                resource.postData(response)
-            } catch (e: Exception) {
-                resource.postError(e)
-            } finally {
-                resource.postLoading(LoadingState.HIDE)
-            }
-        }
-    }
 
 }
