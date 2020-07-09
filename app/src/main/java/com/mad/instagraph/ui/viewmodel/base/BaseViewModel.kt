@@ -4,18 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mad.instagraph.ui.model.LoadingState
 import com.mad.instagraph.ui.model.Resource
-import com.mad.instagraph.usecase.base.BaseUseCase
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 
-    fun <T> BaseUseCase<T>.launch(resource: Resource<T>) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun <T> launchDataLoad(resource: Resource<T>, block: suspend () -> T): Job {
+        return viewModelScope.launch {
             try {
+                println("Loading started")
                 resource.postLoading(LoadingState.SHOW)
-                val response = execute()
+                val response = block()
                 resource.postData(response)
+                println("Data Loaded")
             } catch (e: Exception) {
                 resource.postError(e)
             } finally {
