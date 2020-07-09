@@ -7,7 +7,7 @@ class UserRepositoryImpl : UserRepository {
 
     override suspend fun getUser(): UserEntity {
         delay(5_000L)
-        return UserEntity(id = 13, firstName = "Michele", lastName = "Donato")
+        return UserEntity(id = 13, firstName = "Bill", lastName = "Murray")
     }
 
 }

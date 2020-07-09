@@ -6,10 +6,14 @@ import com.mad.instagraph.usecase.base.BaseUseCase
 
 class GetPhotoUseCase(
     private val photoRepository: PhotoRepository
-) : BaseUseCase<PhotoEntity>() {
+) : BaseUseCase<GetPhotoUseCase.Params, PhotoEntity>() {
 
-    override suspend fun execute(): PhotoEntity {
-        return photoRepository.getPhoto()
-    }
+
+    override suspend fun block(params: Params): PhotoEntity =
+        photoRepository.getPhoto(params.userId)
+
+
+    data class Params(val userId: Long)
+
 
 }

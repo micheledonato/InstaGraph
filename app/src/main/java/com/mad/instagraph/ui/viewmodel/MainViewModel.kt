@@ -5,61 +5,64 @@ import com.mad.instagraph.entity.UserEntity
 import com.mad.instagraph.ui.model.Resource
 import com.mad.instagraph.ui.viewmodel.base.BaseViewModel
 import com.mad.instagraph.usecase.GetPhotoUseCase
+import com.mad.instagraph.usecase.GetStatusUseCase
 import com.mad.instagraph.usecase.GetUserUseCase
 
 class MainViewModel(
     private val getUserUseCase: GetUserUseCase,
-    private val getPhotoUseCase: GetPhotoUseCase
+    private val getPhotoUseCase: GetPhotoUseCase,
+    private val getStatusUseCase: GetStatusUseCase
 ) : BaseViewModel() {
 
     data class ModelResource(
         val user: UserEntity,
-        val photo: PhotoEntity
+        val photo: PhotoEntity,
+        val isActive: Boolean
     )
 
     val resource = Resource<ModelResource>()
 
-    val photo = Resource<PhotoEntity>()
-    val user = Resource<UserEntity>()
 
     init {
         loadData()
     }
 
+
     private fun loadData() {
 
-        /**
-         * Pro: Posso concatenare i dati delle due chiamate in un unico modello o posso fare delle elaborazioni prima della visualizzazione
-         * Contro: le chiamate non sono più slegate ma la seconda deve aspettare che la prima finisca
-         *
-         * Pro: Se la seconda chiamata ha bisogno di un parametro per essere eseguita e questo paramentro gli arriva dalla prima chiamata, questa soluzione ha senso.
-         */
-        // Concatenate launch
-        launchDataLoad(resource) {
+        launchDataLoad(resource) { scope ->
+
+//            var result: ModelResource? = null
+//            val time = measureTimeMillis {
+
             println("Launch started")
-            val photo = getPhotoUseCase.execute()
-            println("Photo ${photo.id} loaded")
 
             val user = getUserUseCase.execute()
             println("User ${user.id} loaded")
 
+            val (photo, status) = blend(
+                getPhotoUseCase.executeAsync(scope, GetPhotoUseCase.Params(user.id)),
+                getStatusUseCase.executeAsync(scope, GetStatusUseCase.Params(user.id))
+            ) { photo, status ->
+
+                println("Photo ${photo.id} loaded")
+                println("Status ${status.id} loaded")
+
+                Pair(photo, status)
+            }
+
             ModelResource(
                 user = user,
-                photo = photo
+                photo = photo,
+                isActive = status.isActive
             )
+
+//            }
+//            println("Time = $time")
+//            return@launchDataLoad result!!
+
         }
 
-
-        /**
-         * Pro: chiamate asincrone slegate tra di loro, così che quando una chiamata termina mostra subito il dato e non deve aspettare l'altra chiamata.
-         * Contro: la prima chiamata nasconde il loader mentre la seconda chiamata sta ancora in esecuzione.
-         * Contro: Non si possono concatenare i dati delle due chiamate in un unico modello o per un elaborazione prima della visualizzazione.
-         */
-        // Single launch alternative version
-//        launchDataLoad(user) { getUserUseCase.execute() }
-//        launchDataLoad(photo) { getPhotoUseCase.execute() }
-
     }
-
 
 }

@@ -4,6 +4,6 @@ import com.mad.instagraph.entity.PhotoEntity
 
 interface PhotoRepository {
 
-    suspend fun getPhoto(): PhotoEntity
+    suspend fun getPhoto(userId: Long): PhotoEntity
 
 }

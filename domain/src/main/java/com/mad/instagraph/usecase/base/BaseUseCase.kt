@@ -1,7 +1,27 @@
 package com.mad.instagraph.usecase.base
 
-abstract class BaseUseCase<T> {
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 
-    abstract suspend fun execute(): T
+abstract class BaseUseCase<Input, Output> {
+
+    abstract suspend fun block(params: Input): Output
+
+    suspend fun execute(params: Input): Output = block(params)
+
+    fun executeAsync(scope: CoroutineScope, params: Input): Deferred<Output> =
+        scope.async { block(params) }
+
+}
+
+abstract class BaseUseCaseNoInput<Output> {
+
+    abstract suspend fun block(): Output
+
+    suspend fun execute(): Output = block()
+
+    fun executeAsync(scope: CoroutineScope): Deferred<Output> =
+        scope.async { block() }
 
 }
