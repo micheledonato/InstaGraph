@@ -3,11 +3,12 @@ package com.mad.instagraph
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.mad.instagraph.remote.api.InstagramApi
+import com.mad.instagraph.remote.api.Api
 import com.mad.instagraph.repository.*
 import com.mad.instagraph.ui.viewmodel.MainViewModel
 import com.mad.instagraph.usecase.GetPhotoUseCase
 import com.mad.instagraph.usecase.GetStatusUseCase
+import com.mad.instagraph.usecase.GetUserDetailsUseCase
 import com.mad.instagraph.usecase.GetUserUseCase
 import okhttp3.OkHttpClient
 import org.koin.android.viewmodel.dsl.viewModel
@@ -20,6 +21,7 @@ val domainModule = module {
     factory { GetUserUseCase(get()) }
     factory { GetPhotoUseCase(get()) }
     factory { GetStatusUseCase(get()) }
+    factory { GetUserDetailsUseCase(get()) }
 
 }
 
@@ -33,7 +35,7 @@ val dataModule = module {
 
 val viewModelModule = module {
 
-    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get()) }
 
 }
 
@@ -62,7 +64,7 @@ val retrofitServiceModule = module {
         return retrofit.create(service)
     }
 
-    single { provideService(get(), InstagramApi::class.java) }
+    single { provideService(get(), Api::class.java) }
 
 }
 

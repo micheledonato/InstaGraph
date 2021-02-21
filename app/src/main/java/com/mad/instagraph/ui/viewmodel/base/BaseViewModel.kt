@@ -7,6 +7,7 @@ import com.mad.instagraph.ui.model.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
@@ -22,6 +23,23 @@ abstract class BaseViewModel : ViewModel() {
                 resource.postError(e)
             } finally {
                 resource.postLoading(LoadingState.HIDE)
+            }
+        }
+    }
+
+
+    fun <T> launchFlowDataLoad(resource: Resource<T>, block: suspend (CoroutineScope) -> T): Job {
+        return viewModelScope.launch {
+            flow {
+                emit(block(this@launch))
+            }.onStart {
+                resource.postLoading(LoadingState.SHOW)
+            }.onCompletion {
+                resource.postLoading(LoadingState.HIDE)
+            }.catch { exception ->
+                resource.postError(exception)
+            }.collect { response ->
+                resource.postData(response)
             }
         }
     }

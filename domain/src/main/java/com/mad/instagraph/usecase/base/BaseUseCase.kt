@@ -25,3 +25,14 @@ abstract class BaseUseCaseNoInput<Output> {
         scope.async { block() }
 
 }
+
+abstract class BaseFlowUseCase<Input, Output> {
+
+    abstract fun block(params: Input): Output
+
+    fun execute(params: Input): Output = block(params)
+
+    fun executeAsync(scope: CoroutineScope, params: Input): Deferred<Output> =
+        scope.async { block(params) }
+
+}
