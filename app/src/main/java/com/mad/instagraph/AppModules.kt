@@ -3,7 +3,9 @@ package com.mad.instagraph
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.mad.instagraph.datasource.UserDataSource
 import com.mad.instagraph.remote.api.Api
+import com.mad.instagraph.remote.datasource.UserDataSourceImpl
 import com.mad.instagraph.repository.*
 import com.mad.instagraph.ui.viewmodel.MainViewModel
 import com.mad.instagraph.usecase.GetPhotoUseCase
@@ -16,7 +18,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-val domainModule = module {
+val useCaseModule = module {
 
     factory { GetUserUseCase(get()) }
     factory { GetPhotoUseCase(get()) }
@@ -25,11 +27,17 @@ val domainModule = module {
 
 }
 
-val dataModule = module {
+val repositoryModule = module {
 
-    single<UserRepository> { UserRepositoryImpl() }
+    single<UserRepository> { UserRepositoryImpl(get()) }
     single<PhotoRepository> { PhotoRepositoryImpl() }
     single<StatusRepository> { StatusRepositoryImpl() }
+
+}
+
+val dataSourceModule = module {
+
+    single<UserDataSource> { UserDataSourceImpl() }
 
 }
 
@@ -68,4 +76,12 @@ val retrofitServiceModule = module {
 
 }
 
-val appModules = listOf(domainModule, dataModule, viewModelModule, netModule, retrofitServiceModule)
+val appModules =
+    listOf(
+        useCaseModule,
+        repositoryModule,
+        dataSourceModule,
+        viewModelModule,
+        netModule,
+        retrofitServiceModule
+    )

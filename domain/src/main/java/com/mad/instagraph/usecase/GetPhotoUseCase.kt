@@ -8,12 +8,9 @@ class GetPhotoUseCase(
     private val photoRepository: PhotoRepository
 ) : BaseUseCase<GetPhotoUseCase.Params, PhotoEntity>() {
 
-
     override suspend fun block(params: Params): PhotoEntity =
         photoRepository.getPhoto(params.userId)
 
-
     data class Params(val userId: Long)
-
 
 }

@@ -8,7 +8,6 @@ class PhotoRepositoryImpl : PhotoRepository {
 
     override suspend fun getPhoto(userId: Long): PhotoEntity {
         delay(10_000L)
-        throw RuntimeException("Too long")
         return PhotoEntity(id = 310013, url = "https://www.fillmurray.com/300/300")
     }
 

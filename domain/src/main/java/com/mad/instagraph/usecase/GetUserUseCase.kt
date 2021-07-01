@@ -8,9 +8,7 @@ class GetUserUseCase(
     private val userRepository: UserRepository
 ) : BaseUseCaseNoInput<UserEntity>() {
 
-
     override suspend fun block(): UserEntity =
         userRepository.getUser()
-
 
 }

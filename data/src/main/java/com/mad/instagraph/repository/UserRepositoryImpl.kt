@@ -1,16 +1,18 @@
 package com.mad.instagraph.repository
 
+import com.mad.instagraph.datasource.UserDataSource
 import com.mad.instagraph.entity.UserDetailsEntity
 import com.mad.instagraph.entity.UserEntity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class UserRepositoryImpl : UserRepository {
+class UserRepositoryImpl(private val dataSource: UserDataSource) : UserRepository {
+
+    private var userCache: UserEntity? = null
 
     override suspend fun getUser(): UserEntity {
-        delay(5_000L)
-        return UserEntity(id = 13, firstName = "Bill", lastName = "Murray")
+        return userCache ?: dataSource.getUser().also { userCache = it }
     }
 
     override fun userDetails(): Flow<UserDetailsEntity> = flow {
