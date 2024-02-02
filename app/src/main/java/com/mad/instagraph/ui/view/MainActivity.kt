@@ -13,11 +13,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        if (savedInstanceState == null)
-            loadFragment(UserFragment(), R.id.fragment_container)
-
         Log.d("MainActivity", "onCreate")
+        if (savedInstanceState == null) loadFragment(UserFragment(), R.id.fragment_container)
     }
 
 }
