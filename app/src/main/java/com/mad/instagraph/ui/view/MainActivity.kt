@@ -15,6 +15,7 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
+            Log.d("MainActivity", "Fragment is null")
             loadFragment(UserFragment(), R.id.fragment_container)
         } else {
             Log.d("MainActivity", "Fragment is not null")
