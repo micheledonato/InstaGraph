@@ -1,6 +1,7 @@
 package com.mad.instagraph.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import com.mad.instagraph.R
 import com.mad.instagraph.databinding.ActivityMainBinding
 import com.mad.instagraph.ui.utils.loadFragment
@@ -16,6 +17,7 @@ class MainActivity : BaseActivity() {
         if (savedInstanceState == null)
             loadFragment(UserFragment(), R.id.fragment_container)
 
+        Log.d("MainActivity", "onCreate")
     }
 
 }
