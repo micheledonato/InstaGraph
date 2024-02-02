@@ -14,12 +14,10 @@ class MainActivity : BaseActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
             loadFragment(UserFragment(), R.id.fragment_container)
-            Log.d("MainActivity", "Fragment is null")
-        } else {
-            Log.d("MainActivity", "Fragment is not null")
-        }
+
+        Log.d("MainActivity", "onCreate")
     }
 
 }
